@@ -1,0 +1,16 @@
+#!/usr/bin/env ansible-playbook -i inventory
+---
+
+- name: Provision the instances
+  hosts: localhost
+  gather_facts: false
+  connection: local
+  tasks:
+    - include: tasks/keypair.yaml name="sitekey"
+    - include: tasks/securitygroup.yaml name="webapp"
+    - include: tasks/securitygroup.yaml name="datebase"
+    - include: tasks/instance.yaml name="web1" securitygroup="webapp" keypair="sitekey"
+    - include: tasks/instance.yaml name="web2" securitygroup="webapp" keypair="sitekey"
+    - include: tasks/instance.yaml name="web3" securitygroup="webapp" keypair="sitekey"
+    - include: tasks/instance.yaml name="db1" securitygroup="datebase" keypair="sitekey"
+    - include: tasks/instance.yaml name="db2" securitygroup="datebase" keypair="sitekey"
